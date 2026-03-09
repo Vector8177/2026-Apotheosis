@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.266462196861626,
+        "x": 2.2664621968616254,
         "y": 4.1320399429386585
       },
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Middle 2026",
+  "folder": "Middle",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

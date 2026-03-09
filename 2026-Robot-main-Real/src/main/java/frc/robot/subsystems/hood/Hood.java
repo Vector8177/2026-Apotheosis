@@ -16,13 +16,16 @@ import org.littletonrobotics.junction.Logger;
 public class Hood extends SubsystemBase {
   private final PIDController pidController;
   private final HoodIO io;
-  private final HoodIOInputs inputs = new HoodIOInputs();
+  private final HoodIOInputsAutoLogged inputs = new HoodIOInputsAutoLogged();
   private static final InterpolatingDoubleTreeMap hoodAngleMap = new InterpolatingDoubleTreeMap();
   private double targetPosition;
   private ArmFeedforward feedForward;
 
   static {
     //fill in hood angle values
+
+    hoodAngleMap.put(0d, 0d);
+
   }
 
   public Hood(HoodIO io) {
@@ -39,20 +42,23 @@ public class Hood extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    // Logger.processInputs("Hood", inputs);
-    //Logger.recordOutput("Hood Current Position", io.getPosition());
+    //Logger.processInputs("Hood", inputs);
+    Logger.recordOutput("Hood Current Position", io.getPosition());
+    try{
+      int closest = (int)LimelightHelpers.getFiducialID("limelight-turret");
+      LimelightHelpers.SetFiducialIDFiltersOverride("limelight-turret", new int[]{closest});
+      RawFiducial[] fiducials = LimelightHelpers.getRawFiducials("limelight-turret");
+      double distance = fiducials[0].distToCamera;
+      LimelightHelpers.SetFiducialIDFiltersOverride("limelight-turret", TurretConstants.allId);
+      targetPosition = hoodAngleMap.get(distance);
+    }
+    catch(Exception e){}
 
-    int closest = (int)LimelightHelpers.getFiducialID("limelight-turret");
-    LimelightHelpers.SetFiducialIDFiltersOverride("limelight-turret", new int[]{closest});
-    RawFiducial[] fiducials = LimelightHelpers.getRawFiducials("limelight-turret");
-    double distance = fiducials[0].distToCamera;
-    LimelightHelpers.SetFiducialIDFiltersOverride("limelight-turret", TurretConstants.allId);
-    targetPosition = hoodAngleMap.get(distance);
 
     double pidMotorSpeed =
         pidController.calculate(io.getPosition(), targetPosition)
             + feedForward.calculate(targetPosition, 0);
-    // Logger.recordOutput("Hood Speed", pidMotorSpeed);
+    Logger.recordOutput("Hood Speed", pidMotorSpeed);
     setMotor(
         MathUtil.clamp((pidMotorSpeed), -HoodConstants.MAX_VOLTAGE, HoodConstants.MAX_VOLTAGE));
   }

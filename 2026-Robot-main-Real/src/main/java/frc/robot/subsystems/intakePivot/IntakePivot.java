@@ -12,7 +12,7 @@ import org.littletonrobotics.junction.Logger;
 public class IntakePivot extends SubsystemBase {
   private final PIDController pidController;
   private final IntakePivotIO io;
-  private final IntakePivotIOInputs inputs = new IntakePivotIOInputs();
+  private final IntakePivotIOInputsAutoLogged inputs = new IntakePivotIOInputsAutoLogged();
   private double targetPosition;
   private ArmFeedforward feedForward;
 
@@ -30,19 +30,22 @@ public class IntakePivot extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    // Logger.processInputs("IntakePivot", inputs);
-    //Logger.recordOutput("IntakePivot Current Position", io.getPosition());
+    //Logger.processInputs("IntakePivot", inputs);
+    Logger.recordOutput("IntakePivot Current Position", io.getPosition());
     Logger.recordOutput("Encoder Position", io.getEncoderPosition());
+
     double pidMotorSpeed =
         pidController.calculate(io.getPosition(), targetPosition)
             + feedForward.calculate(targetPosition, 0);
-    ;
+    
     Logger.recordOutput("IntakePivot Speed", pidMotorSpeed);
+
     setMotor(
         MathUtil.clamp((pidMotorSpeed), -IntakePivotConstants.MAX_VOLTAGE, IntakePivotConstants.MAX_VOLTAGE));
-      Logger.recordOutput("Intake Pivot position", io.getPosition());
-      Logger.recordOutput("Intake Pivot Target Position", targetPosition);
-    }
+
+    Logger.recordOutput("Intake Pivot position", io.getPosition());
+    Logger.recordOutput("Intake Pivot Target Position", targetPosition);
+  }
 
   public void setMotor(double voltage) {
     io.setVoltage(voltage);
@@ -52,7 +55,7 @@ public class IntakePivot extends SubsystemBase {
     Logger.recordOutput("IntakePivot Target Position", position);
     System.out.println(io.getPosition() + " IntakePivot");
     
-    targetPosition = position;
+    targetPosition = (((io.getEncoderPosition()-position)*(180/Math.PI))/360)*40;
   }
 
   public void setIntakePivotSetpoint(double offset) {

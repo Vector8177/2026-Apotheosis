@@ -68,8 +68,8 @@ public class RobotContainer {
   private final Intake intake;
   private final IntakePivot intakePivot;
 //   private final Climber climber;
-//   private final Hood hood;
-//   private final Turret turret;
+  private final Hood hood;
+  private final Turret turret;
   private final Vision vision;
   private final Shooter shooter;
 
@@ -91,18 +91,13 @@ public class RobotContainer {
 
         // climber = new Climber(new ClimberIOTalonFX());
 
-        // hood = new Hood(new HoodIOTalonFX());
+        hood = new Hood(new HoodIOTalonFX());
 
-        // turret = new Turret(new TurretIOTalonFX());
+        turret = new Turret(new TurretIOTalonFX());
 
         shooter = new Shooter(new ShooterIOTalonFX());
 
-        NamedCommands.registerCommand("Stop Intake", MainCommands.stopIntake(intake));
-        NamedCommands.registerCommand("Run Intake", MainCommands.runIntake(intake));
-        NamedCommands.registerCommand("Slow Intake", MainCommands.runIntakeSlow(intake));
-        NamedCommands.registerCommand("Run Outake", MainCommands.runOuttake(intake));
-        NamedCommands.registerCommand("Shoot", MainCommands.runTopIntake(intake));
-        NamedCommands.registerCommand("Stop Shooter", MainCommands.stopTopIntake(intake));
+        
 
         
 
@@ -121,7 +116,18 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation),
                 new VisionIOLimelight(VisionConstants.camera1Name, drive::getRotation));
-      }
+       NamedCommands.registerCommand("Stop Intake", MainCommands.stopIntake(intake));
+    NamedCommands.registerCommand("Run Intake", MainCommands.runIntake(intake));
+    NamedCommands.registerCommand("Slow Intake", MainCommands.runIntakeSlow(intake));
+    NamedCommands.registerCommand("Run Outake", MainCommands.runOuttake(intake));
+    NamedCommands.registerCommand("Run Top Intake", MainCommands.runTopIntake(intake));
+    NamedCommands.registerCommand("Stop Top Intake", MainCommands.stopTopIntake(intake));
+    NamedCommands.registerCommand("Shoot", MainCommands.shoot(intake, shooter));
+    NamedCommands.registerCommand("Stop Shooter", MainCommands.stopShooter(intake, shooter));
+    NamedCommands.registerCommand("AutoAlignToggle", MainCommands.toggleAutoAlign(turret, hood));
+
+      
+            }
 
       case SIM -> {
         // Sim robot, instantiate physics sim IO implementations
@@ -139,9 +145,9 @@ public class RobotContainer {
 
         // climber = new Climber(new ClimberIOTalonFX());
 
-        // hood = new Hood(new HoodIOTalonFX());
+        hood = new Hood(new HoodIOTalonFX());
 
-        // turret = new Turret(new TurretIOTalonFX());
+        turret = new Turret(new TurretIOTalonFX());
 
         shooter = new Shooter(new ShooterIOTalonFX());
 
@@ -149,6 +155,18 @@ public class RobotContainer {
             new Vision(
                 drive::addVisionMeasurement,
                 new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation));
+      
+       NamedCommands.registerCommand("Stop Intake", MainCommands.stopIntake(intake));
+    NamedCommands.registerCommand("Run Intake", MainCommands.runIntake(intake));
+    NamedCommands.registerCommand("Slow Intake", MainCommands.runIntakeSlow(intake));
+    NamedCommands.registerCommand("Run Outake", MainCommands.runOuttake(intake));
+    NamedCommands.registerCommand("Run Top Intake", MainCommands.runTopIntake(intake));
+    NamedCommands.registerCommand("Stop Top Intake", MainCommands.stopTopIntake(intake));
+    NamedCommands.registerCommand("Shoot", MainCommands.shoot(intake, shooter));
+    NamedCommands.registerCommand("Stop Shooter", MainCommands.stopShooter(intake, shooter));
+    NamedCommands.registerCommand("AutoAlignToggle", MainCommands.toggleAutoAlign(turret, hood));
+
+      
       }
 
       default -> {
@@ -158,19 +176,14 @@ public class RobotContainer {
 
         // climber = new Climber(new ClimberIOTalonFX());
 
-        // hood = new Hood(new HoodIOTalonFX());
+        hood = new Hood(new HoodIOTalonFX());
         
-        // turret = new Turret(new TurretIOTalonFX());
+        turret = new Turret(new TurretIOTalonFX());
 
         shooter = new Shooter(new ShooterIOTalonFX());
 
 
-        NamedCommands.registerCommand("Stop Intake", MainCommands.stopIntake(intake));
-        NamedCommands.registerCommand("Run Intake", MainCommands.runIntake(intake));
-        NamedCommands.registerCommand("Run Outake", MainCommands.runOuttake(intake));
-        //NamedCommands.registerCommand("Turret Follow", MainCommands.test(turret));
-        NamedCommands.registerCommand("Shoot", MainCommands.runTopIntake(intake));
-        NamedCommands.registerCommand("Stop Shooter", MainCommands.stopTopIntake(intake));
+        
 
     
 
@@ -187,9 +200,21 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation),
                 new VisionIOLimelight(VisionConstants.camera1Name, drive::getRotation));
+      
+       NamedCommands.registerCommand("Stop Intake", MainCommands.stopIntake(intake));
+    NamedCommands.registerCommand("Run Intake", MainCommands.runIntake(intake));
+    NamedCommands.registerCommand("Slow Intake", MainCommands.runIntakeSlow(intake));
+    NamedCommands.registerCommand("Run Outake", MainCommands.runOuttake(intake));
+    NamedCommands.registerCommand("Run Top Intake", MainCommands.runTopIntake(intake));
+    NamedCommands.registerCommand("Stop Top Intake", MainCommands.stopTopIntake(intake));
+    NamedCommands.registerCommand("Shoot", MainCommands.shoot(intake, shooter));
+    NamedCommands.registerCommand("Stop Shooter", MainCommands.stopShooter(intake, shooter));
+    NamedCommands.registerCommand("AutoAlignToggle", MainCommands.toggleAutoAlign(turret, hood));
+
       }
     }
 
+   
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -209,6 +234,7 @@ public class RobotContainer {
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
+
     configureButtonBindings();
   }
 
@@ -227,8 +253,9 @@ public class RobotContainer {
             () -> -driverController.getLeftY(),
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
-    driverController
-        .y()
+    
+   
+    driverController.y()
         .onTrue(
             Commands.runOnce(
                     () ->
@@ -255,21 +282,20 @@ public class RobotContainer {
         .onTrue(MainCommands.runOuttake(intake))
         .onFalse(MainCommands.stopIntake(intake));
 
-    //driverController.a().onTrue(MainCommands.shoot(shooter)).onFalse(MainCommands.stopShooter(shooter));
+    // driverController.a().onTrue(MainCommands.shoot(shooter));
 
    
     // driverController.b()
-    //     .onTrue(MainCommands.turretFollow(turret));
+    //     .onTrue(MainCommands.moveHood(hood));
 
     
 
-    // driverController.b().onTrue(MainCommands.toggleAutoAlign(turret));
-    // driverController.x().onTrue(MainCommands.stow(turret));
-    driverController.rightBumper().onTrue(MainCommands.runTopIntake(intake)).onFalse(MainCommands.stopTopIntake(intake));
+    driverController.b().onTrue(MainCommands.toggleAutoAlign(turret, hood));
+    driverController.a().onTrue(MainCommands.spinShooterFlywheel(shooter)).onFalse(MainCommands.stopShooter(intake, shooter));
+    driverController.rightBumper().onTrue(MainCommands.shoot(intake, shooter)).onFalse(MainCommands.stopShooter(intake, shooter));
     driverController.leftBumper().onTrue(MainCommands.runTopIntakeBackward(intake)).onFalse(MainCommands.stopTopIntake(intake));
     driverController.povLeft().onTrue(MainCommands.movePivot(intakePivot));
     driverController.povRight().onTrue(MainCommands.stowPivot(intakePivot));
-    // driverController.leftTrigger().onTrue(MainCommands.runOuttake(intake)).onFalse(MainCommands.stopIntake(intake));
     
 
     // operatorController

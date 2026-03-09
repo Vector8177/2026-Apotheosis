@@ -38,11 +38,14 @@ public class MainCommands {
   
   
   public static Command stopIntake(Intake intake) {
+
     return runOnce(() -> intake.setSpeed(0), intake);
   }
 
-  public static Command toggleAutoAlign(Turret turret){
-    return runOnce(() -> turret.setAutoAlign(), turret);
+  public static Command toggleAutoAlign(Turret turret, Hood hood){
+
+    return sequence(runOnce(()-> turret.setAutoAlign(), turret));//, 
+                   // runOnce( ()-> hood.setAutoAlign()));
   }
 
   public static Command runOutakeFast(Intake intake) {
@@ -80,12 +83,37 @@ public class MainCommands {
   }
 
   public static Command movePivot(IntakePivot pivot) {
-    return runOnce(() -> pivot.setIntakePivotSetpoint(.5), pivot);
+    return runOnce(() -> pivot.setPosition(IntakePivotConstants.INTAKE_POSITION), pivot);
   }
 
   public static Command stowPivot(IntakePivot pivot) {
-    return runOnce(() -> pivot.setIntakePivotSetpoint(-.5), pivot);
+    return runOnce(() -> pivot.setPosition(IntakePivotConstants.INTAKE_STOW), pivot);
   }
+
+  public static Command shoot(Intake intake, Shooter shooter) {
+
+    return sequence(runOnce(() -> intake.setTopSpeed(-1), intake), 
+                   runOnce(() -> shooter.setSpeed(true), shooter));
+    
+    
+  }
+
+  public static Command stopShooter(Intake intake, Shooter shooter){
+    return sequence(runOnce(() -> intake.setTopSpeed(0), intake), 
+                    runOnce(() -> shooter.setSpeed(false), shooter));
+  }
+
+  // public static Command stopShooter(Shooter shooter) {
+  //   return runOnce(() -> shooter.setSpeed(), shooter);//.05
+  // }
+
+  public static Command moveHood(Hood hood){
+    return runOnce(() -> hood.setPosition(10), hood);
+  }
+
+  public static Command spinShooterFlywheel(Shooter shooter){
+      return runOnce(() -> shooter.setSpeed(true));
+   }
   
 
 
@@ -116,9 +144,9 @@ public class MainCommands {
  
 
   // Shuts hood down and unspools turret
-  public static Command stow(Turret turret) {
+  public static Command stow(Turret turret, Hood hood) {
     return sequence(
-        //runOnce(() -> wrist.setPosition(0), wrist),
+        //runOnce(() -> hood.setPosition(0), hood),
         runOnce(() -> turret.setPosition(0), turret));
   }
 

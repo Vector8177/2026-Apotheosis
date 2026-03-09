@@ -9,6 +9,10 @@ public interface ShooterIO {
 
   default void stop() {}
 
+  default double getPosition() {
+    return 0d;
+  }
+
   @AutoLog
   class ShooterIOInputs {
     double shooterVelocityRadPerSec = 0d;

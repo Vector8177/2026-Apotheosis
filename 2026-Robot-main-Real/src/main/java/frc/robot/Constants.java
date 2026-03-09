@@ -42,13 +42,12 @@ public final class Constants {
   public static final class IntakeConstants {
     public static final int MOTOR_ID = 31;
     public static final int MOTOR_ID2 = 32;
-    public static final int MAX_VOLTAGE = 12;//1222222222222222222222222222222222222222222222222222222222222222222222222
+    public static final int MAX_VOLTAGE = 12; // 12??
   }
 
   public static final class ShooterConstants {
-    public static final int MOTOR_ID = 41;  //Reassign later
+    public static final int MOTOR_ID = 41; 
     public static final int HELPER_ID = 42;
-    public static final int HOOD_MOTOR_ID = 2; //Reassign later
     public static final int MAX_VOLTAGE = 12;
 
     //PIDConstants -- tune later
@@ -64,14 +63,14 @@ public final class Constants {
 
 
     //DEFINITELY CHANGE, THIS IS A GUESS!!
-    public static final double INTAKE_POSITION = 50;
-    public static final double INTAKE_STOW = .28;
+    public static final double INTAKE_POSITION = -.2;//-.27
+    public static final double INTAKE_STOW = .35;//.377
 
 
     //tune pid and svag later
-    public static final double kP = 5; // 1.5
+    public static final double kP = 1.5; // 7.5
     public static final double kI = 0.0;
-    public static final double kD = 0.01;
+    public static final double kD = 0.01; // 0.05
 
     public static final double kS = 0.11237;
     public static final double kV = 0.56387;
@@ -116,25 +115,9 @@ public final class Constants {
   }
 
   public static final class HoodConstants {
-    public static final int MOTOR_ID = 41;
+    public static final int MOTOR_ID = 43;
     public static final int MAX_VOLTAGE = 9;
 
-    // These are relative encoder positions - comments are for absolute encoder -
-
-    // relative encoders were negative, shantanu made them positive on 9/4/25
-
-    public static final double INTAKE_POSITION = 10.25; // 10.25
-    public static final double SCORING_POSITION_L1 = 5; // .35
-    public static final double SCORING_POSITION_L2 = .1; // .25
-    public static final double SCORING_POSITION_L4 = .1; // .34
-    public static final double PERPENDICULAR_POSITION = 6.5; // .6
-    public static final double SCORING_POSITION_NET = -7.8; // .65
-    public static final double FLICK_WRIST_POSITION = -7.5; // .525
-
-    // THIS VARIABLE IS NOT ACCURATE, PLZ CHANGE AFTER TESTING
-    public static final double L2ALGAE = 12; //
-    public static final double L3ALGEA = 12;
-    public static final double SCORING_POSITION_BARGE = 3;
     public static double kP = 1.75; // 1.5
     public static double kI = 0.0;
     public static double kD = 0;

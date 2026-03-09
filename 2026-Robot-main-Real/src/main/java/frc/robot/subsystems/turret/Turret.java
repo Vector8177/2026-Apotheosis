@@ -20,7 +20,7 @@ import com.ctre.phoenix6.configs.TorqueCurrentConfigs;
 public class Turret extends SubsystemBase {
   private final PIDController pidController;
   private final TurretIO io;
-  private final TurretIOInputs inputs = new TurretIOInputs();
+  private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
   private double targetPosition;
   private ArmFeedforward feedForward;
   private boolean follow;

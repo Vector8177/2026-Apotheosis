@@ -11,7 +11,7 @@ import frc.robot.subsystems.intake.IntakeIO.IntakeIOInputs;
 
 public class Intake extends SubsystemBase {
   private final IntakeIO io;
-  private final IntakeIOInputs inputs = new IntakeIOInputs();
+  private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
   private double targetSpeed = 0;
   private double targetSpeed2 = 0;
   private boolean stopIntake = false;

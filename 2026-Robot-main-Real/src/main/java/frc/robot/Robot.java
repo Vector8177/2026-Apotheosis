@@ -48,6 +48,8 @@ public class Robot extends LoggedRobot {
   private final Timer matchTimer;
   private int matchTimeRemaining;
 
+  private int sectionRemaining = 0;
+
   // private final Thread m_visionThread;
 
   public Robot() {
@@ -108,7 +110,7 @@ public class Robot extends LoggedRobot {
     Logger.start();
 
     // Check for valid swerve config
-    var modules =
+    var modules  =
         new SwerveModuleConstants[] {
           TunerConstants.FrontLeft,
           TunerConstants.FrontRight,
@@ -156,7 +158,7 @@ public class Robot extends LoggedRobot {
     
     
     SmartDashboard.putBoolean("Enabled", isHubActive());
-
+    SmartDashboard.putNumber("Phase-Time Remaining", matchTimeRemaining-sectionRemaining);
   }
 
   /** This function is called once when the robot is disabled. */
@@ -255,6 +257,7 @@ public class Robot extends LoggedRobot {
     }
     // Hub is always enabled in autonomous.
     if (DriverStation.isAutonomousEnabled()) {
+      sectionRemaining = 140;
       return true;
     }
     // At this point, if we're not teleop enabled, there is no hub.
@@ -285,23 +288,31 @@ public class Robot extends LoggedRobot {
       case Blue -> redInactiveFirst;
     };
 
+    
+
     if (matchTime > 130) {
       // Transition shift, hub is active.
+      sectionRemaining = 130;
       return true;
     } else if (matchTime > 105) {
       // Shift 1
+      sectionRemaining = 105;
       return shift1Active;
     } else if (matchTime > 80) {
       // Shift 2
+      sectionRemaining = 80;
       return !shift1Active;
     } else if (matchTime > 55) {
       // Shift 3
+      sectionRemaining = 55;
       return shift1Active;
     } else if (matchTime > 30) {
       // Shift 4
+      sectionRemaining = 30;
       return !shift1Active;
     } else {
       // End game, hub always active.
+      sectionRemaining = 0;
       return true;
     }
   }

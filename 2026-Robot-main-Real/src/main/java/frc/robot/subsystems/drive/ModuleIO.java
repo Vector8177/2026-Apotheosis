@@ -15,10 +15,12 @@ package frc.robot.subsystems.drive;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
+//import org.littletonrobotics.junction.AutoLog.LogTable;
+//import org.littletonrobotics.junction.AutoLog.LoggableInputs;
 
 public interface ModuleIO {
   @AutoLog
-  class ModuleIOInputs {
+  public static class ModuleIOInputs {
     public boolean driveConnected = false;
     public double drivePositionRad = 0.0;
     public double driveVelocityRadPerSec = 0.0;
@@ -37,6 +39,36 @@ public interface ModuleIO {
     public double[] odometryDrivePositionsRad = new double[] {};
     public Rotation2d[] odometryTurnPositions = new Rotation2d[] {};
   }
+  // class ModuleIOInputsAutoLogged extends ModuleIOInputs implements LoggableInputs{
+  //   public void toLog(LogTable table){
+  //     table.put("driveConnected", driveConnected);
+  //     table.put("drivePositionRad", drivePositionRad);
+  //     table.put("driveVelocityRadPerSec", driveVelocityRadPerSec);
+  //     table.put("driveAppliedVolts", driveAppliedVolts);
+  //     table.put("driveCurrentAmps", driveCurrentAmps);
+  //     table.put("turnConnected", turnConnected);
+  //     table.put("turnEncoderConnected", turnEncoderConnected);
+  //     table.put("turnAbsolutePosition", turnAbsolutePosition);
+  //     table.put("turnPosition", turnPosition);
+  //     table.put("turnVelocityRadPerSec", turnVelocityRadPerSec);
+  //     table.put("turnAppliedVolts", turnAppliedVolts);
+  //     table.put("turnCurrentAmps", turnCurrentAmps);
+  //   }
+  //   public void fromLog(LogTable table) {
+  //     driveConnected = table.get("driveConnected", driveConnected);
+  //     drivePositionRad = table.get("drivePositionRad", drivePositionRad);
+  //     driveVelocityRadPerSec = table.get("driveVelocityRadPerSec", driveVelocityRadPerSec);
+  //     driveAppliedVolts = table.get("driveAppliedVolts", driveAppliedVolts);
+  //     driveCurrentAmps = table.get("driveCurrentAmps", driveCurrentAmps);
+  //     turnConnected = table.get("turnConnected", turnConnected);
+  //     turnEncoderConnected = table.get("turnEncoderConnected", turnEncoderConnected);
+  //     turnAbsolutePosition = table.get("turnAbsolutePosition", turnAbsolutePosition);
+  //     turnPosition = table.get("turnPosition", turnPosition);
+  //     turnVelocityRadPerSec = table.get("turnVelocityRadPerSec", turnVelocityRadPerSec);
+  //     turnAppliedVolts = table.get("turnAppliedVolts", turnAppliedVolts);
+  //     turnCurrentAmps = table.get("turnCurrentAmps", turnCurrentAmps);
+  //   }
+  // }
 
   /** Updates the set of loggable inputs. */
   default void updateInputs(ModuleIOInputs inputs) {}

@@ -8,37 +8,54 @@
 package frc.robot.subsystems.shooter;
 
 
+import java.rmi.dgc.VMID;
+
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.NeutralOut;
-import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.util.Units;
+import frc.robot.Constants.IntakePivotConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.subsystems.shooter.ShooterIO.ShooterIOInputs;
 
 /** Generic roller IO implementation for a roller or series of rollers using a Kraken. */
 public class ShooterIOTalonFX implements ShooterIO {
   private final TalonFX shooterMotor;
   private final TalonFX helperMotor;
   private final NeutralOut neutralOut = new NeutralOut();
+  private final CANBus canbus = new CANBus("Turret Canivore");
+  private VelocityVoltage velocityVoltage;
 
   public ShooterIOTalonFX() {
-    shooterMotor = new TalonFX(ShooterConstants.MOTOR_ID);
-    helperMotor = new TalonFX(ShooterConstants.HELPER_ID);
+    shooterMotor = new TalonFX(ShooterConstants.MOTOR_ID, canbus);
+    helperMotor = new TalonFX(ShooterConstants.HELPER_ID, canbus);
     
     TalonFXConfiguration config = new TalonFXConfiguration();
+
+    // config.Slot0.kP = 1;
+    // config.Slot0.kI = 0;
+    // config.Slot0.kD = 0.01;
+
+    //config.Slot0.kS = 0;
+
+
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
     config.MotionMagic.MotionMagicAcceleration = 100;
 
     shooterMotor.getConfigurator().apply(config, 0.5);
 
-    shooterMotor.setNeutralMode(NeutralModeValue.Brake);
+    shooterMotor.setNeutralMode(NeutralModeValue.Coast);
 
     helperMotor.getConfigurator().apply(config, .5);
     
-    helperMotor.setNeutralMode(NeutralModeValue.Brake);
+    helperMotor.setNeutralMode(NeutralModeValue.Coast);
+    
+    velocityVoltage = new VelocityVoltage(0);
   }
 
   @Override
@@ -51,11 +68,30 @@ public class ShooterIOTalonFX implements ShooterIO {
   }
 
   @Override
-  public void setShooterVoltage(double volts) {
-    //shooterMotor.setVoltage(volts);
-    VelocityTorqueCurrentFOC vtc = new VelocityTorqueCurrentFOC(volts);
-    Logger.recordOutput("Target Velocity Shooter", vtc.getVelocityMeasure().toString());
-    //shooterMotor.setControl(new VelocityTorqueCurrentFOC(volts));
+  public void setShooterVoltage(double velocity) {
+    // VelocityVoltage v = new VelocityVoltage(velocity);
+    
+    
+    
+    // shooterMotor.setControl(v);
+    // helperMotor.setControl(v);
+
+
+    
+    // Logger.recordOutput("Velocity Voltage", v.Velocity);
+
+     Logger.recordOutput("Shooter Target Speed", velocity);
+    // Logger.recordOutput("Shooter Motor Target Speed", shooterMotor.getVelocity().getValueAsDouble());
+    // Logger.recordOutput("Shooter Helper Motor Target Speed", helperMotor.getVelocity().getValueAsDouble());
+
+  
+    //shooterMotor.setVoltage(velocity);
+    helperMotor.setVoltage(velocity);
+  }
+
+  @Override
+  public double getPosition(){
+    return shooterMotor.getPosition().getValueAsDouble();
   }
 
   @Override

@@ -108,6 +108,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Right 2026",
+  "folder": "Right",
   "choreoAuto": false
 }

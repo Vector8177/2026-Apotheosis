@@ -3,14 +3,14 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "Left 2026",
-    "Middle 2026",
-    "Right 2026"
+    "Left",
+    "Middle",
+    "Right"
   ],
   "autoFolders": [
-    "Left 2026",
-    "Middle 2026",
-    "Right 2026"
+    "Left",
+    "Middle",
+    "Right"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
