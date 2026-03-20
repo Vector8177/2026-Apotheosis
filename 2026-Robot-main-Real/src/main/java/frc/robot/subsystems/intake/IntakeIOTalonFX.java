@@ -18,11 +18,13 @@ import frc.robot.Constants.IntakeConstants;
 public class IntakeIOTalonFX implements IntakeIO {
   private final TalonFX intakeMotor;
   private final TalonFX indexMotor;
+  private final TalonFX startIntakeMotor;
   private final NeutralOut neutralOut = new NeutralOut();
 
   public IntakeIOTalonFX() {
     intakeMotor = new TalonFX(IntakeConstants.MOTOR_ID);
     indexMotor = new TalonFX(IntakeConstants.MOTOR_ID2);
+    startIntakeMotor = new TalonFX(IntakeConstants.MOTOR_ID3);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
@@ -30,9 +32,11 @@ public class IntakeIOTalonFX implements IntakeIO {
 
     intakeMotor.getConfigurator().apply(config, 0.5);
     indexMotor.getConfigurator().apply(config, 0.5);
+    startIntakeMotor.getConfigurator().apply(config, 0.5);
 
     intakeMotor.setNeutralMode(NeutralModeValue.Brake);
     indexMotor.setNeutralMode(NeutralModeValue.Brake);
+    startIntakeMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
   @Override
@@ -50,6 +54,11 @@ public class IntakeIOTalonFX implements IntakeIO {
   }
 
   @Override
+  public void setBottomIntakeVoltage(double volts){
+    startIntakeMotor.setVoltage(-volts);
+  }
+
+  @Override
   public void setTopIntakeVoltage(double volts){
     indexMotor.setVoltage(volts);
   }
@@ -58,5 +67,6 @@ public class IntakeIOTalonFX implements IntakeIO {
   public void stop() {
     intakeMotor.setControl(neutralOut);
     indexMotor.setControl(neutralOut);
+    startIntakeMotor.setControl(neutralOut);
   }
 }

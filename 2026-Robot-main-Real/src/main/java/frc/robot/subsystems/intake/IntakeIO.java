@@ -9,6 +9,8 @@ public interface IntakeIO {
 
   default void setTopIntakeVoltage(double volts) {}
 
+  default void setBottomIntakeVoltage(double volts) {}
+
   default void stop() {}
 
   @AutoLog

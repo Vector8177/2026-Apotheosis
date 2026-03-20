@@ -1,5 +1,6 @@
 package frc.robot.subsystems.hood;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -11,11 +12,12 @@ import frc.robot.Constants.HoodConstants;
 public class HoodIOTalonFX implements HoodIO {
   private final TalonFX hoodMotor;
   private final TalonFXConfiguration configuration;
+  private final CANBus canbus = new CANBus("Turret Canivore"); 
   // private final DigitalInput input;
   // private final DutyCycleEncoder encoder;
 
   public HoodIOTalonFX() {
-    hoodMotor = new TalonFX(HoodConstants.MOTOR_ID);
+    hoodMotor = new TalonFX(HoodConstants.MOTOR_ID, canbus);
     configuration = new TalonFXConfiguration();
 
     hoodMotor.getConfigurator().apply(configuration, .05);

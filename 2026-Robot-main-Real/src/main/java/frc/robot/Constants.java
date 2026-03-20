@@ -42,13 +42,14 @@ public final class Constants {
   public static final class IntakeConstants {
     public static final int MOTOR_ID = 31;
     public static final int MOTOR_ID2 = 32;
+    public static final int MOTOR_ID3 = 33;
     public static final int MAX_VOLTAGE = 12; // 12??
   }
 
   public static final class ShooterConstants {
     public static final int MOTOR_ID = 41; 
     public static final int HELPER_ID = 42;
-    public static final int MAX_VOLTAGE = 12;
+    public static final int  MAX_VOLTAGE = 12;
 
     //PIDConstants -- tune later
     public static double kP = 2.5;
@@ -68,7 +69,7 @@ public final class Constants {
 
 
     //tune pid and svag later
-    public static final double kP = 1.5; // 7.5
+    public static final double kP = 2; // 7.5
     public static final double kI = 0.0;
     public static final double kD = 0.01; // 0.05
 
@@ -118,7 +119,13 @@ public final class Constants {
     public static final int MOTOR_ID = 43;
     public static final int MAX_VOLTAGE = 9;
 
-    public static double kP = 1.75; // 1.5
+    public static final double BLUE_HUB_X = 4.6047;
+    public static final double BLUE_HUB_Y = 4.0213;
+    public static final double RED_HUB_X = 11.9083;
+    public static final double RED_HUB_Y = 4.0213;
+    
+
+    public static double kP = 2.25; // 2
     public static double kI = 0.0;
     public static double kD = 0;
 
@@ -138,8 +145,8 @@ public final class Constants {
         AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeAndyMark);
 
     // Camera names, must match names configured on coprocessor
-    public static String camera0Name = "limelight-left"; // this is the right LL
-    public static String camera1Name = "limelight-right"; // this is the left LL
+    public static String camera0Name = "limelight-static"; // this is the right LL
+    // public static String camera1Name = "limelight-right"; // this is the left LL
 
     public static final double LIMELIGHT_HEIGHT_METERS = 0.65;
     public static final double LIMELIGHT_PITCH_DEG = 25.0;

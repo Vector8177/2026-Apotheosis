@@ -10,6 +10,7 @@ import frc.robot.LimelightHelpers.RawFiducial;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.subsystems.turret.TurretIO.TurretIOInputs;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.function.DoubleSupplier;
 
@@ -68,12 +69,16 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
 
+    SmartDashboard.putBoolean("Auto-Align", autoAlign);
+    
+
     time++;
 
     
 
-    if(time%3==0 && time>=50){
+    if(time%3==0 && time>=50){//3
       int id = (int) LimelightHelpers.getFiducialID("limelight-turret");
+      Logger.recordOutput("turret id", id);
       switch(id){
         case 2 -> {
           LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
@@ -135,13 +140,14 @@ public class Turret extends SubsystemBase {
       time = 51;
     }
     
-    //MathUtil.clamp(targetPosition, -2.5, 2.5);
+    MathUtil.clamp(targetPosition, -2.5, 2.5);
 
-    double pidMotorSpeed =
+    double pidMotorSpeed = 
         pidController.calculate(io.getPosition(), targetPosition)
             + feedForward.calculate(targetPosition, 0);
       setMotor(
         MathUtil.clamp((pidMotorSpeed), -TurretConstants.MAX_VOLTAGE, TurretConstants.MAX_VOLTAGE));
+      //setMotor(pidMotorSpeed*TurretConstants.MAX_VOLTAGE);
       
       
       
@@ -369,7 +375,7 @@ public class Turret extends SubsystemBase {
     
     double x = LimelightHelpers.getTX("limelight-turret");
     targetPosition = targetPosition+x/36;
-    wrap();
+    //wrap();
     this.theta = x/36;
   }
 }

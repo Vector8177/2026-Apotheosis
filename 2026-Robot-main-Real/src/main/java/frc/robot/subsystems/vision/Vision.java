@@ -58,6 +58,8 @@ public class Vision extends SubsystemBase {
   @Override
   public void periodic() {
 
+    
+
     for (int i = 0; i < io.length; i++) {
       io[i].updateInputs(inputs[i]);
       //Logger.processInputs("Vision/Camera" + i, inputs[i]);
@@ -167,12 +169,12 @@ public class Vision extends SubsystemBase {
               .getEntry("botpose_targetspace")
               .getDoubleArray(new double[6]));
 
-      Logger.recordOutput(
-          "Camera 1 BotPose",
-          NetworkTableInstance.getDefault()
-              .getTable(VisionConstants.camera1Name)
-              .getEntry("botpose_targetspace")
-              .getDoubleArray(new double[6]));
+      // Logger.recordOutput(
+      //     "Camera 1 BotPose",
+      //     NetworkTableInstance.getDefault()
+      //         .getTable(VisionConstants.camera1Name)
+      //         .getEntry("botpose_targetspace")
+      //         .getDoubleArray(new double[6]));
 
       // ===============================
       // APRILTAG ANGLE + DISTANCE OUTPUT
@@ -180,8 +182,8 @@ public class Vision extends SubsystemBase {
 
       for (cameraIndex = 0; cameraIndex < io.length; cameraIndex++) {
 
-        String cameraName =
-            (cameraIndex == 0) ? VisionConstants.camera0Name : VisionConstants.camera1Name;
+        String cameraName = VisionConstants.camera0Name;
+            // (cameraIndex == 0) ? VisionConstants.camera0Name : VisionConstants.camera1Name;
 
         var table = NetworkTableInstance.getDefault().getTable(cameraName);
 

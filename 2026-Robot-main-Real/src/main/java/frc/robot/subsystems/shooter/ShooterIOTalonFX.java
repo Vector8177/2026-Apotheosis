@@ -37,9 +37,9 @@ public class ShooterIOTalonFX implements ShooterIO {
     
     TalonFXConfiguration config = new TalonFXConfiguration();
 
-    // config.Slot0.kP = 1;
+    config.Slot0.kP = .2;
     // config.Slot0.kI = 0;
-    // config.Slot0.kD = 0.01;
+    config.Slot0.kD = 0.01;
 
     //config.Slot0.kS = 0;
 
@@ -69,24 +69,24 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   @Override
   public void setShooterVoltage(double velocity) {
-    // VelocityVoltage v = new VelocityVoltage(velocity);
+    VelocityVoltage v = new VelocityVoltage(velocity);
     
     
     
-    // shooterMotor.setControl(v);
-    // helperMotor.setControl(v);
+    shooterMotor.setControl(v);
+    helperMotor.setControl(v);
 
 
     
     // Logger.recordOutput("Velocity Voltage", v.Velocity);
 
-     Logger.recordOutput("Shooter Target Speed", velocity);
-    // Logger.recordOutput("Shooter Motor Target Speed", shooterMotor.getVelocity().getValueAsDouble());
-    // Logger.recordOutput("Shooter Helper Motor Target Speed", helperMotor.getVelocity().getValueAsDouble());
+    Logger.recordOutput("Shooter Target Speed", velocity);
+    Logger.recordOutput("Shooter Motor Target Speed", shooterMotor.getVelocity().getValueAsDouble());
+    Logger.recordOutput("Shooter Helper Motor Target Speed", helperMotor.getVelocity().getValueAsDouble());
 
   
-    //shooterMotor.setVoltage(velocity);
-    helperMotor.setVoltage(velocity);
+    // shooterMotor.setVoltage(velocity);
+    // helperMotor.setVoltage(velocity);
   }
 
   @Override

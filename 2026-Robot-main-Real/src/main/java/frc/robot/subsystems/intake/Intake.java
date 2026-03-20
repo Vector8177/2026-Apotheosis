@@ -12,6 +12,7 @@ import frc.robot.subsystems.intake.IntakeIO.IntakeIOInputs;
 public class Intake extends SubsystemBase {
   private final IntakeIO io;
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
+  private double targetSpeed0 = 0;
   private double targetSpeed = 0;
   private double targetSpeed2 = 0;
   private boolean stopIntake = false;
@@ -23,9 +24,10 @@ public class Intake extends SubsystemBase {
 
   
 
-  private void setSpeedRaw(double speed, double speed2) {
+  private void setSpeedRaw(double speed, double speed2, double speed0) {
     speed = MathUtil.clamp(speed, -1, 1);
     speed2 = MathUtil.clamp(speed2, -1, 1);
+    speed0 = MathUtil.clamp(speed0, -1, 1);
     // Logger.recordOutput("Intake speed", speed);
     
     if(speed2==0 && speed!=0){
@@ -36,6 +38,12 @@ public class Intake extends SubsystemBase {
       io.setTopIntakeVoltage(speed2*IntakeConstants.MAX_VOLTAGE);
       io.setIntakeVoltage((Math.abs(speed2)) * IntakeConstants.MAX_VOLTAGE);
     }
+
+    io.setBottomIntakeVoltage(speed0 * IntakeConstants.MAX_VOLTAGE);
+  }
+
+  public void setIntakeSpeed(double speed){
+    targetSpeed0 = speed;
   }
 
   public void setSpeed(double speed) {
@@ -52,7 +60,7 @@ public class Intake extends SubsystemBase {
     io.updateInputs(inputs);
     // Logger.processInputs("Intake", inputs);
 
-    setSpeedRaw(targetSpeed, targetSpeed2);
+    setSpeedRaw(targetSpeed, targetSpeed2, targetSpeed0);
   }
 
   public void stop() {

@@ -13,6 +13,7 @@
 
 package frc.robot.subsystems.vision;
 
+import frc.robot.RobotContainer;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -65,8 +66,8 @@ public class VisionIOLimelight implements VisionIO {
 
 
     //filters out ids for the ones we want scanner --> change for 2026
-    int[] validIDs = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
-    LimelightHelpers.SetFiducialIDFiltersOverride(VisionConstants.camera0Name, validIDs);
+    // int[] validIDs = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
+    // LimelightHelpers.SetFiducialIDFiltersOverride(VisionConstants.camera0Name, validIDs);
   }
 
   @Override
@@ -90,33 +91,35 @@ public class VisionIOLimelight implements VisionIO {
 
     // Read new pose observations from NetworkTables
     Set<Integer> tagIds = new HashSet<>();
+    // LimelightHelpers.SetRobotOrientation("limelight-static", RobotContainer.drive.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+    // LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-static");
     List<PoseObservation> poseObservations = new LinkedList<>();
-    // for (var rawSample : megatag1Subscriber.readQueue()) {
-    //   if (rawSample.value.length == 0) continue;
-    //   for (int i = 11; i < rawSample.value.length; i += 7) {
-    //     tagIds.add((int) rawSample.value[i]);
-    //   }
-    //   poseObservations.add(
-    //       new PoseObservation(
-    //           // Timestamp, based on server timestamp of publish and latency
-    //           rawSample.timestamp * 1.0e-6 - rawSample.value[6] * 1.0e-3,
+    for (var rawSample : megatag1Subscriber.readQueue()) {
+      if (rawSample.value.length == 0) continue;
+      for (int i = 11; i < rawSample.value.length; i += 7) {
+        tagIds.add((int) rawSample.value[i]);
+      }
+      poseObservations.add(
+          new PoseObservation(
+              // Timestamp, based on server timestamp of publish and latency
+              rawSample.timestamp * 1.0e-6 - rawSample.value[6] * 1.0e-3,
 
-    //           // 3D pose estimate
-    //           parsePose(rawSample.value),
+              // 3D pose estimate
+              parsePose(rawSample.value),
 
-    //           // Ambiguity, using only the first tag because ambiguity isn't applicable for
-    //           //   multitag
-    //           rawSample.value.length >= 18 ? rawSample.value[17] : 0.0,
+              // Ambiguity, using only the first tag because ambiguity isn't applicable for
+              //   multitag
+              rawSample.value.length >= 18 ? rawSample.value[17] : 0.0,
 
-    //           // Tag count
-    //           (int) rawSample.value[7],
+              // Tag count
+              (int) rawSample.value[7],
 
-    //           // Average tag distance
-    //           rawSample.value[9],
+              // Average tag distance
+              rawSample.value[9],
 
-    //           // Observation type
-    //           PoseObservationType.MEGATAG_1));
-    // }
+              // Observation type
+              PoseObservationType.MEGATAG_1));
+    }
     for (var rawSample : megatag2Subscriber.readQueue()) {
       if (rawSample.value.length == 0) continue;
       for (int i = 11; i < rawSample.value.length; i += 7) {

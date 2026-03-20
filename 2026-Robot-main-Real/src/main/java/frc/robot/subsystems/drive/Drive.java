@@ -15,6 +15,7 @@ package frc.robot.subsystems.drive;
 
 import static edu.wpi.first.units.Units.*;
 
+import frc.robot.LimelightHelpers;
 import com.ctre.phoenix6.CANBus;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.ModuleConfig;
@@ -108,8 +109,14 @@ public class Drive extends SubsystemBase {
         new SwerveModulePosition(),
         new SwerveModulePosition()
       };
+
   private final SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
+
+
+  public static boolean overrideAlign = false;
+
+
 
   public Drive(
       GyroIO gyroIO,
@@ -193,6 +200,7 @@ public class Drive extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // LimelightHelpers.SetRobotOrientation("limelight-static", getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
     //Logger.processInputs("Drive/Gyro", (LoggableInputs) gyroInputs);
@@ -248,6 +256,73 @@ public class Drive extends SubsystemBase {
 
     // Update gyro alert
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
+  
+    // if(overrideAlign){
+    //   int id = (int) LimelightHelpers.getFiducialID("limelight-turret");
+    //   switch(id){
+    //     case 2 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+    //     }
+    //     case 3 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+    //     }
+    //     case 4 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+    //     }
+    //     case 5 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+    //     }
+    //     case 8 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, -0.3556, 0);
+    //     }
+    //     case 9 -> {
+    //        LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+    //     }
+    //     case 10 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+    //     }
+    //     case 11 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+    //     }
+    //     case 18 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+    //     }
+    //     case 19 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+    //     }
+    //     case 20 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+    //     }
+    //     case 21 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+    //     }
+    //     case 24 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, -0.3556, 0);
+    //     }
+    //     case 25 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+    //     }
+    //     case 26 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+    //     }
+    //     case 27 -> {
+    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+    //     }
+    //     default -> {
+    //       break;
+    //     }
+
+    //   }
+    // double angle = LimelightHelpers.getTX("limelight-turret");
+
+    // PIDController tempController = new PIDController(.09, 0, 0);
+    // double omegaTemp = tempController.calculate(0, angle);
+    
+    // ChassisSpeeds tempSpeeds = new ChassisSpeeds(0, 0, omegaTemp);
+
+    // runVelocity(tempSpeeds);
+    // }
+  
   }
 
   /**
@@ -369,6 +444,7 @@ public class Drive extends SubsystemBase {
   /** Resets the current odometry pose. */
   public void setPose(Pose2d pose) {
     poseEstimator.resetPosition(rawGyroRotation, getModulePositions(), pose);
+    // LimelightHelpers.SetRobotOrientation("limelight-static", getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
   }
 
   /** Adds a new timestamped vision measurement. */

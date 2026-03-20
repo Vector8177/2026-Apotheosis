@@ -12,12 +12,11 @@ import frc.robot.Constants.TurretConstants;;
 public class TurretIOTalonFX implements TurretIO {
   private final TalonFX turretMotor;
   private final TalonFXConfiguration configuration;
-  private final CANBus canbus = new CANBus("Turret Canivore");
   // private final DigitalInput input;
   // private final DutyCycleEncoder encoder;
 
   public TurretIOTalonFX() {
-    turretMotor = new TalonFX(TurretConstants.MOTOR_ID, canbus);
+    turretMotor = new TalonFX(TurretConstants.MOTOR_ID);
     configuration = new TalonFXConfiguration();
 
     turretMotor.getConfigurator().apply(configuration, .05);

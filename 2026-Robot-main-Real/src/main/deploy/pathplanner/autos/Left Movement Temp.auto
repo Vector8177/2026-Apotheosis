@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Temporary 2"
+            "pathName": "Left Temporary 4"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Left",
+  "folder": null,
   "choreoAuto": false
 }

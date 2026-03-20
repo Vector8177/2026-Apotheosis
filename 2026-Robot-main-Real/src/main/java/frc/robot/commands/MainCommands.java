@@ -17,6 +17,8 @@ import frc.robot.subsystems.turret.Turret;
 import frc.robot.subsystems.hood.Hood;
 import frc.robot.subsystems.shooter.Shooter;
 
+import frc.robot.subsystems.drive.Drive;
+
 public class MainCommands {
 
   private MainCommands() {}
@@ -25,27 +27,41 @@ public class MainCommands {
 
   // }
 
-  // public static Command turnTurret(Turret turret){
-  //   return runOnce(()-> turret.setSpeed(.3), turret);
-  // }
+  public static Command rotateHood(Hood hood) {
+    return runOnce(() -> hood.setPosition(.1), hood);
+  }
 
-  // public static Command turnTurretBackward(Turret turret){
-  //   return runOnce(()-> turret.setSpeed(-.3), turret);
-  // }
+  public static Command rotateHoodBackward(Hood hood) {
+    return runOnce(() -> hood.setPosition(-.1), hood);
+  }
 
-  // public static Command stopTurret(Turret turret){
-  //   return runOnce(()-> turret.setSpeed(.0), turret);}
+  public static Command stopHood(Hood hood) {
+    return runOnce(() -> hood.setPosition(0), hood);
+  }
+
+
+  public static Command turnTurret(Turret turret){
+    return runOnce(()-> turret.setPosition(.3), turret);
+  }
+
+  public static Command turnTurretBackward(Turret turret){
+    return runOnce(()-> turret.setPosition(-.3), turret);
+  }
+
+  public static Command stopTurret(Turret turret){
+    return runOnce(()-> turret.setPosition(0), turret);}
   
   
   public static Command stopIntake(Intake intake) {
 
-    return runOnce(() -> intake.setSpeed(0), intake);
+    return sequence(runOnce(() -> intake.setSpeed(0), intake), 
+                    runOnce(() -> intake.setIntakeSpeed(0), intake));
   }
 
   public static Command toggleAutoAlign(Turret turret, Hood hood){
 
-    return sequence(runOnce(()-> turret.setAutoAlign(), turret));//, 
-                   // runOnce( ()-> hood.setAutoAlign()));
+    return sequence(runOnce(()-> turret.setAutoAlign(), turret),
+                    runOnce( ()-> hood.setAutoAlign(), hood));
   }
 
   public static Command runOutakeFast(Intake intake) {
@@ -53,11 +69,11 @@ public class MainCommands {
   }
 
   public static Command runIntake(Intake intake) {
-    return runOnce(() -> intake.setSpeed(.7), intake); // .3
+    return runOnce(() -> intake.setSpeed(.6), intake); // .3
   }
 
   public static Command runOuttake(Intake intake) {
-    return runOnce(() -> intake.setSpeed(-.7), intake); // -.3
+    return runOnce(() -> intake.setSpeed(-.6), intake); // -.3
   }
 
   public static Command runOuttakeSlow(Intake intake) {
@@ -77,30 +93,54 @@ public class MainCommands {
     return runOnce(() -> intake.setTopSpeed(1), intake); // .1
   }
 
+  public static Command runBottomIntake(Intake intake){
+    return runOnce(() -> intake.setIntakeSpeed(.5));
+  }
+
+  public static Command runBottomOuttake(Intake intake){
+    return runOnce(() -> intake.setIntakeSpeed(-.5));
+  }
+
   // Change Later
   public static Command stopTopIntake(Intake intake) {
     return runOnce(() -> intake.setTopSpeed(0), intake);
   }
 
   public static Command movePivot(IntakePivot pivot) {
-    return runOnce(() -> pivot.setPosition(IntakePivotConstants.INTAKE_POSITION), pivot);
+    return runOnce(() -> pivot.setPosition(0.26), pivot);
   }
 
   public static Command stowPivot(IntakePivot pivot) {
-    return runOnce(() -> pivot.setPosition(IntakePivotConstants.INTAKE_STOW), pivot);
+    return runOnce(() -> pivot.setPosition(-0.34), pivot);
   }
 
-  public static Command shoot(Intake intake, Shooter shooter) {
+  public static Command stopPivot(IntakePivot pivot) {
+    return runOnce(() -> pivot.stopPivot(), pivot);
+  }
 
-    return sequence(runOnce(() -> intake.setTopSpeed(-1), intake), 
-                   runOnce(() -> shooter.setSpeed(true), shooter));
+  public static Command shoot(Intake intake, Shooter shooter, Hood hood) {
+
+    return sequence(runOnce(() -> shooter.setSpeed(true), shooter),
+                  runOnce( () -> hood.setAutoAlign(), hood),
+                  waitSeconds(.5), 
+                  runOnce(() -> intake.setTopSpeed(-.7), intake));
+    
+    
+  }
+  public static Command shootNoRev(Intake intake, Shooter shooter, Hood hood) {
+
+    return sequence(runOnce(() -> shooter.setSpeed(true), shooter),
+                  runOnce(() -> hood.setAutoAlign(), hood),
+                  runOnce(() -> intake.setTopSpeed(-.7), intake));
     
     
   }
 
-  public static Command stopShooter(Intake intake, Shooter shooter){
-    return sequence(runOnce(() -> intake.setTopSpeed(0), intake), 
-                    runOnce(() -> shooter.setSpeed(false), shooter));
+
+  public static Command stopShooter(Intake intake, Shooter shooter, Hood hood){
+    return sequence(runOnce(() -> shooter.setSpeed(false), shooter),
+                    runOnce(() -> intake.setTopSpeed(0), intake), 
+                    runOnce(() -> hood.setAutoAlign(), hood));
   }
 
   // public static Command stopShooter(Shooter shooter) {
@@ -170,4 +210,9 @@ public class MainCommands {
   // public static Command moveTurret3(Turret turret){
   //   return runOnce(() -> turret.setPosition(TurretConstants.pos3), turret);
   // }
+
+
+  public static Command autoAlign(){
+    return runOnce(() -> Drive.overrideAlign = !Drive.overrideAlign);
+  }
 }
