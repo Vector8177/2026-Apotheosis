@@ -44,6 +44,11 @@ public class TurretIOTalonFX implements TurretIO {
   }
 
   @Override
+  public double getCurrent() {
+    return turretMotor.getSupplyCurrent().getValueAsDouble();
+  }
+
+  @Override
   public double getPosition() {
     return turretMotor.getPosition().getValueAsDouble();
     // if (encoder.get() > .75) {

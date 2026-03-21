@@ -16,6 +16,10 @@ public interface TurretIO {
 
   default void setVoltage(double speed) {}
 
+  default double getCurrent() {
+    return 0d;
+  }
+
   default double getPosition() {
     return 0;
   }

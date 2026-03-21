@@ -9,6 +9,10 @@ public interface IntakeIO {
 
   default void setTopIntakeVoltage(double volts) {}
 
+  default double getCurrent() {
+    return 0d;
+  }
+
   default void setBottomIntakeVoltage(double volts) {}
 
   default void stop() {}

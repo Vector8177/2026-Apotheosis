@@ -31,13 +31,16 @@ public class Shooter extends SubsystemBase {
   private int time = 1;
 
   private boolean shoot = false;
+  private boolean shuttle = false;
   
 
   static {
     //put values for interpolating tree maps
     //add more values as testing each case continues
     shooterSpeedMap.put(3.25, 75d);
-    shooterSpeedMap.put(3.72, 85d);
+    shooterSpeedMap.put(3.6, 85d);
+    shooterSpeedMap.put(4.28, 95d);
+    shooterSpeedMap.put(4.83, 100d);
   }
 
   public Shooter(ShooterIO io) {
@@ -75,13 +78,26 @@ public class Shooter extends SubsystemBase {
       speed = shooterSpeedMap.get(distanceToHub);
     }
     catch(Exception e) {
-      speed = 85;
+      speed = 90;
     }
     targetSpeed = shoot ? speed : 0; // .8
   }
 
+  public void setShuttleSpeed(double speed){
+    if(!shuttle) {
+      shuttle = !shuttle;
+      targetSpeed = speed;
+    }
+    else {
+      shuttle = !shuttle;
+      targetSpeed = 0;
+    }
+  }
+
   @Override
   public void periodic() {
+
+    Logger.recordOutput("Shooter Current", io.getCurrent());
 
     // time++;
 

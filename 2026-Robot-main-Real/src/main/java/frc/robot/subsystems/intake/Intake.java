@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.intake.IntakeIO.IntakeIOInputs;
 
-// import org.littletonrobotics.junction.Logger;
-// import org.littletonrobotics.junction.inputs.LoggableInputs;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 public class Intake extends SubsystemBase {
   private final IntakeIO io;
@@ -34,8 +34,8 @@ public class Intake extends SubsystemBase {
       io.setTopIntakeVoltage((Math.abs(speed)+.1)*IntakeConstants.MAX_VOLTAGE);
       io.setIntakeVoltage(speed * IntakeConstants.MAX_VOLTAGE);
     }
-    else{
-      io.setTopIntakeVoltage(speed2*IntakeConstants.MAX_VOLTAGE);
+    else {
+      io.setTopIntakeVoltage((speed2)*IntakeConstants.MAX_VOLTAGE);
       io.setIntakeVoltage((Math.abs(speed2)) * IntakeConstants.MAX_VOLTAGE);
     }
 
@@ -59,7 +59,7 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     // Logger.processInputs("Intake", inputs);
-
+    Logger.recordOutput("Intake Current", io.getCurrent());
     setSpeedRaw(targetSpeed, targetSpeed2, targetSpeed0);
   }
 

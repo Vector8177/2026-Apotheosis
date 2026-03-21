@@ -119,15 +119,17 @@ public class RobotContainer {
                 new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation));
             /*new VisionIOLimelight(VisionConstants.camera1Name, drive::getRotation));*/
        NamedCommands.registerCommand("Stop Intake", MainCommands.stopIntake(intake));
-    NamedCommands.registerCommand("Run Intake", MainCommands.runIntake(intake));
+    NamedCommands.registerCommand("Run Intake", MainCommands.runBottomIntake(intake));
     NamedCommands.registerCommand("Slow Intake", MainCommands.runIntakeSlow(intake));
-    NamedCommands.registerCommand("Run Outake", MainCommands.runOuttake(intake));
+    NamedCommands.registerCommand("Run Outake", MainCommands.runBottomOuttake(intake));
     NamedCommands.registerCommand("Run Top Intake", MainCommands.runTopIntake(intake));
     NamedCommands.registerCommand("Stop Top Intake", MainCommands.stopTopIntake(intake));
     NamedCommands.registerCommand("Shoot", MainCommands.shoot(intake, shooter, hood));
     NamedCommands.registerCommand("Stop Shooter", MainCommands.stopShooter(intake, shooter, hood));
-    NamedCommands.registerCommand("AutoAlignToggle", MainCommands.toggleAutoAlign(turret, hood));
+    NamedCommands.registerCommand("AutoAlignToggle", MainCommands.toggleAutoAlign(turret));
     NamedCommands.registerCommand("Spin Flywheel", MainCommands.spinShooterFlywheel(shooter));
+    NamedCommands.registerCommand("Pivot Down", MainCommands.stowPivot(intakePivot));
+    NamedCommands.registerCommand("Pivot Up", MainCommands.movePivot(intakePivot));
     //NamedCommands.registerCommand("Stop Flywheel", MainCommands)
 
       
@@ -161,15 +163,19 @@ public class RobotContainer {
                 new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation));
       
        NamedCommands.registerCommand("Stop Intake", MainCommands.stopIntake(intake));
-    NamedCommands.registerCommand("Run Intake", MainCommands.runIntake(intake));
+    NamedCommands.registerCommand("Run Intake", MainCommands.runBottomIntake(intake));
     NamedCommands.registerCommand("Slow Intake", MainCommands.runIntakeSlow(intake));
-    NamedCommands.registerCommand("Run Outake", MainCommands.runOuttake(intake));
+    NamedCommands.registerCommand("Run Outake", MainCommands.runBottomOuttake(intake));
     NamedCommands.registerCommand("Run Top Intake", MainCommands.runTopIntake(intake));
     NamedCommands.registerCommand("Stop Top Intake", MainCommands.stopTopIntake(intake));
     NamedCommands.registerCommand("Shoot", MainCommands.shoot(intake, shooter, hood));
     NamedCommands.registerCommand("Stop Shooter", MainCommands.stopShooter(intake, shooter, hood));
-    NamedCommands.registerCommand("AutoAlignToggle", MainCommands.toggleAutoAlign(turret, hood));
+    NamedCommands.registerCommand("AutoAlignToggle", MainCommands.toggleAutoAlign(turret));
     NamedCommands.registerCommand("Spin Flywheel", MainCommands.spinShooterFlywheel(shooter));
+        NamedCommands.registerCommand("Pivot Down", MainCommands.stowPivot(intakePivot));
+            NamedCommands.registerCommand("Pivot Up", MainCommands.movePivot(intakePivot));
+
+
 
       
       }
@@ -206,15 +212,18 @@ public class RobotContainer {
                 new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation));
             /*new VisionIOLimelight(VisionConstants.camera1Name, drive::getRotation));*/
        NamedCommands.registerCommand("Stop Intake", MainCommands.stopIntake(intake));
-    NamedCommands.registerCommand("Run Intake", MainCommands.runIntake(intake));
+    NamedCommands.registerCommand("Run Intake", MainCommands.runBottomIntake(intake));
     NamedCommands.registerCommand("Slow Intake", MainCommands.runIntakeSlow(intake));
-    NamedCommands.registerCommand("Run Outake", MainCommands.runOuttake(intake));
+    NamedCommands.registerCommand("Run Outake", MainCommands.runBottomOuttake(intake));
     NamedCommands.registerCommand("Run Top Intake", MainCommands.runTopIntake(intake));
     NamedCommands.registerCommand("Stop Top Intake", MainCommands.stopTopIntake(intake));
     NamedCommands.registerCommand("Shoot", MainCommands.shoot(intake, shooter, hood));
     NamedCommands.registerCommand("Stop Shooter", MainCommands.stopShooter(intake, shooter, hood));
-    NamedCommands.registerCommand("AutoAlignToggle", MainCommands.toggleAutoAlign(turret, hood));
+    NamedCommands.registerCommand("AutoAlignToggle", MainCommands.toggleAutoAlign(turret));
     NamedCommands.registerCommand("Spin Flywheel", MainCommands.spinShooterFlywheel(shooter));
+    NamedCommands.registerCommand("Pivot Down", MainCommands.stowPivot(intakePivot));
+        NamedCommands.registerCommand("Pivot Up", MainCommands.movePivot(intakePivot));
+
 
       }
     }
@@ -297,17 +306,19 @@ public class RobotContainer {
 
     
 
-    driverController.b().onTrue(MainCommands.toggleAutoAlign(turret, hood));
+    driverController.b().onTrue(MainCommands.toggleAutoAlign(turret));
     // driverController.a().onTrue(MainCommands.spinShooterFlywheel(shooter)).onFalse(MainCommands.stopShooter(intake, shooter, hood));
     driverController.a().onTrue(MainCommands.shootNoRev(intake, shooter, hood)).onFalse(MainCommands.stopShooter(intake, shooter, hood));
     driverController.rightBumper().onTrue(MainCommands.shoot(intake, shooter, hood)).onFalse(MainCommands.stopShooter(intake, shooter, hood));
-    driverController.leftBumper().onTrue(MainCommands.runTopIntakeBackward(intake)).onFalse(MainCommands.stopTopIntake(intake));
+    // driverController.leftBumper().onTrue(MainCommands.runTopIntakeBackward(intake)).onFalse(MainCommands.stopTopIntake(intake));
     driverController.povLeft().onTrue(MainCommands.movePivot(intakePivot));
     driverController.povRight().onTrue(MainCommands.stowPivot(intakePivot));
     driverController.povUp().onTrue(MainCommands.rotateHood(hood)).onFalse(MainCommands.stopHood(hood));
-    driverController.povDown().onTrue(MainCommands.rotateHoodBackward(hood)).onFalse(MainCommands.stopHood(hood));
+    // driverController.povDown().onTrue(MainCommands.rotateHoodBackward(hood)).onFalse(MainCommands.stopHood(hood));
+    driverController.povDown().onTrue(MainCommands.stow(turret, hood));
+    // driverController.povUp().onTrue(MainCommands.shuttle(turret, hood, shooter));
 
-    // driverController.povUp().onTrue(MainCommands.autoAlign());
+    // driverController.povUp().onTrue(MainCo`mmands.autoAlign());
     
 
     // operatorController

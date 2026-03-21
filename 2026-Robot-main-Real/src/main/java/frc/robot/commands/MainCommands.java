@@ -49,8 +49,13 @@ public class MainCommands {
   }
 
   public static Command stopTurret(Turret turret){
-    return runOnce(()-> turret.setPosition(0), turret);}
+    return runOnce(()-> turret.setPosition(0), turret);
+  }
   
+  public static Command stow(Turret turret, Hood hood) {
+    return sequence(runOnce(() -> turret.setPosition(0), turret),
+                    runOnce(() -> hood.setPosition(0), hood));
+  }
   
   public static Command stopIntake(Intake intake) {
 
@@ -58,10 +63,10 @@ public class MainCommands {
                     runOnce(() -> intake.setIntakeSpeed(0), intake));
   }
 
-  public static Command toggleAutoAlign(Turret turret, Hood hood){
+  public static Command toggleAutoAlign(Turret turret){
 
-    return sequence(runOnce(()-> turret.setAutoAlign(), turret),
-                    runOnce( ()-> hood.setAutoAlign(), hood));
+    return sequence(runOnce(()-> turret.setAutoAlign(), turret));
+                    //runOnce( ()-> hood.setAutoAlign(), hood));
   }
 
   public static Command runOutakeFast(Intake intake) {
@@ -107,7 +112,7 @@ public class MainCommands {
   }
 
   public static Command movePivot(IntakePivot pivot) {
-    return runOnce(() -> pivot.setPosition(0.26), pivot);
+    return runOnce(() -> pivot.setPosition(0.1), pivot);
   }
 
   public static Command stowPivot(IntakePivot pivot) {
@@ -121,17 +126,24 @@ public class MainCommands {
   public static Command shoot(Intake intake, Shooter shooter, Hood hood) {
 
     return sequence(runOnce(() -> shooter.setSpeed(true), shooter),
-                  runOnce( () -> hood.setAutoAlign(), hood),
+                  runOnce( () -> hood.setAutoAlign(true), hood),
                   waitSeconds(.5), 
-                  runOnce(() -> intake.setTopSpeed(-.7), intake));
+                  runOnce(() -> intake.setTopSpeed(-.6), intake)); //-.8
     
     
   }
+
+  // public static Command shuttle(Turret turret, Hood hood, Shooter shooter) {
+  //   return sequence(runOnce(() -> turret.setShuttlePosition(0), turret),
+  //                   runOnce(() -> hood.setShuttlePosition(HoodConstants.SHUTTLE_HOOD), hood),
+  //                   runOnce(() -> shooter.setShuttleSpeed(ShooterConstants.SHUTTLE_SPEED), shooter));
+  // }
+
   public static Command shootNoRev(Intake intake, Shooter shooter, Hood hood) {
 
     return sequence(runOnce(() -> shooter.setSpeed(true), shooter),
-                  runOnce(() -> hood.setAutoAlign(), hood),
-                  runOnce(() -> intake.setTopSpeed(-.7), intake));
+                  runOnce(() -> hood.setAutoAlign(true), hood),
+                  runOnce(() -> intake.setTopSpeed(-.5), intake));
     
     
   }
@@ -140,7 +152,7 @@ public class MainCommands {
   public static Command stopShooter(Intake intake, Shooter shooter, Hood hood){
     return sequence(runOnce(() -> shooter.setSpeed(false), shooter),
                     runOnce(() -> intake.setTopSpeed(0), intake), 
-                    runOnce(() -> hood.setAutoAlign(), hood));
+                    runOnce(() -> hood.setAutoAlign(false), hood));
   }
 
   // public static Command stopShooter(Shooter shooter) {
@@ -184,11 +196,11 @@ public class MainCommands {
  
 
   // Shuts hood down and unspools turret
-  public static Command stow(Turret turret, Hood hood) {
-    return sequence(
-        //runOnce(() -> hood.setPosition(0), hood),
-        runOnce(() -> turret.setPosition(0), turret));
-  }
+  // public static Command stow(Turret turret, Hood hood) {
+  //   return sequence(
+  //       //runOnce(() -> hood.setPosition(0), hood),
+  //       runOnce(() -> turret.setPosition(0), turret));
+  // }
 
   public static Command intakePosition(IntakePivot intakePivot){
     return runOnce(() -> intakePivot.setPosition(IntakePivotConstants.INTAKE_POSITION));

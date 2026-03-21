@@ -7,6 +7,10 @@ public interface ShooterIO {
 
   default void setShooterVoltage(double volts) {}
 
+  default double getCurrent(){
+    return 0d;
+  }
+
   default void stop() {}
 
   default double getPosition() {

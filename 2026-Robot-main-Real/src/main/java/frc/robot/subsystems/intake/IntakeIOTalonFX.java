@@ -27,6 +27,8 @@ public class IntakeIOTalonFX implements IntakeIO {
     startIntakeMotor = new TalonFX(IntakeConstants.MOTOR_ID3);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
+    
+    //config.CurrentLimits.SupplyCurrentLimit = 60;
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
     config.MotionMagic.MotionMagicAcceleration = 100;
 
@@ -61,6 +63,11 @@ public class IntakeIOTalonFX implements IntakeIO {
   @Override
   public void setTopIntakeVoltage(double volts){
     indexMotor.setVoltage(volts);
+  }
+
+  @Override
+  public double getCurrent() {
+    return intakeMotor.getSupplyCurrent().getValueAsDouble();
   }
 
   @Override

@@ -27,6 +27,8 @@ public class Turret extends SubsystemBase {
   private boolean follow;
   private DoubleSupplier gyro;
   private boolean autoAlign;
+
+  private boolean shuttle;
   double delH = -1;
     double theta1 = -1;
         double theta2 = -1;
@@ -70,7 +72,7 @@ public class Turret extends SubsystemBase {
     io.updateInputs(inputs);
 
     SmartDashboard.putBoolean("Auto-Align", autoAlign);
-    
+    Logger.recordOutput("Turret Current", io.getCurrent());
 
     time++;
 
@@ -137,10 +139,13 @@ public class Turret extends SubsystemBase {
       if(LimelightHelpers.getTV("limelight-turret") && !DriverStation.isDisabled() && autoAlign){
         move();
       }
+      else if(!autoAlign){
+        targetPosition = 0;
+      }
       time = 51;
     }
     
-    MathUtil.clamp(targetPosition, -2.5, 2.5);
+    MathUtil.clamp(targetPosition, -2, 2);
 
     double pidMotorSpeed = 
         pidController.calculate(io.getPosition(), targetPosition)
@@ -196,6 +201,17 @@ public class Turret extends SubsystemBase {
 
   public void setAutoAlign(){
     this.autoAlign = !this.autoAlign;
+  }
+
+  public void setShuttlePosition(double position){
+    if(!shuttle) {
+      shuttle = !shuttle;
+      targetPosition = position;
+    }
+    else {
+      shuttle = !shuttle;
+      targetPosition = 0;
+    }
   }
 
   public void followGyro(boolean follow, DoubleSupplier gyro){

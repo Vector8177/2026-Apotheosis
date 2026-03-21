@@ -34,6 +34,8 @@ public class ShooterIOTalonFX implements ShooterIO {
   public ShooterIOTalonFX() {
     shooterMotor = new TalonFX(ShooterConstants.MOTOR_ID, canbus);
     helperMotor = new TalonFX(ShooterConstants.HELPER_ID, canbus);
+
+    
     
     TalonFXConfiguration config = new TalonFXConfiguration();
 
@@ -43,7 +45,7 @@ public class ShooterIOTalonFX implements ShooterIO {
 
     //config.Slot0.kS = 0;
 
-
+    //config.CurrentLimits.SupplyCurrentLimit = 70;
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
     config.MotionMagic.MotionMagicAcceleration = 100;
 
@@ -92,6 +94,10 @@ public class ShooterIOTalonFX implements ShooterIO {
   @Override
   public double getPosition(){
     return shooterMotor.getPosition().getValueAsDouble();
+  }
+
+  public double getCurrent(){
+    return shooterMotor.getStatorCurrent().getValueAsDouble();
   }
 
   @Override

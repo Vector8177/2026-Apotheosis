@@ -50,6 +50,7 @@ public final class Constants {
     public static final int MOTOR_ID = 41; 
     public static final int HELPER_ID = 42;
     public static final int  MAX_VOLTAGE = 12;
+    public static final double SHUTTLE_SPEED = 95;
 
     //PIDConstants -- tune later
     public static double kP = 2.5;
@@ -123,6 +124,7 @@ public final class Constants {
     public static final double BLUE_HUB_Y = 4.0213;
     public static final double RED_HUB_X = 11.9083;
     public static final double RED_HUB_Y = 4.0213;
+    public static final double SHUTTLE_HOOD = 4d;
     
 
     public static double kP = 2.25; // 2

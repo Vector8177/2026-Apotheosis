@@ -27,6 +27,7 @@ public class Hood extends SubsystemBase {
   double tempDistance = -1;
   double tempClosest = -1;
   boolean autoAlign;
+  private boolean shuttle = false;
 
   static {
     //fill in hood angle values
@@ -35,6 +36,9 @@ public class Hood extends SubsystemBase {
     hoodAngleMap.put(2.22, 2.5);
     hoodAngleMap.put(2.75, 3.937);
     hoodAngleMap.put(3.129, 4.99);
+    hoodAngleMap.put(3.6, 7.123);
+    hoodAngleMap.put(4.28, 7.8);
+    hoodAngleMap.put(4.83, 7.1);
     
 
   }
@@ -74,7 +78,7 @@ public class Hood extends SubsystemBase {
                   Math.pow(Math.abs(HoodConstants.BLUE_HUB_Y-RobotContainer.drive.getPose().getY()), 2));
     }
     Logger.recordOutput("Dist to Hub", distanceToHub);
-
+    Logger.recordOutput("Hood autoAlign", autoAlign);
 
     try{
       if(autoAlign) {
@@ -87,7 +91,9 @@ public class Hood extends SubsystemBase {
     catch(Exception e){}
     Logger.recordOutput("Hood Target Position", targetPosition);
 
-    double pidMotorSpeed = 
+    MathUtil.clamp(targetPosition, 0, 8);
+
+    double pidMotorSpeed = //targetPosition;
         pidController.calculate(io.getPosition(), targetPosition)
             + feedForward.calculate(targetPosition, 0);
     Logger.recordOutput("Hood Speed", pidMotorSpeed);
@@ -101,7 +107,7 @@ public class Hood extends SubsystemBase {
   }
 
   public boolean trenchAble() {
-    if(targetPosition > 0) {
+    if(targetPosition > 1) {
       return false;
     }
     return true;
@@ -111,14 +117,26 @@ public class Hood extends SubsystemBase {
     io.setVoltage(voltage);
   }
 
-  public void setAutoAlign(){
-    this.autoAlign = !autoAlign;
+  public void setAutoAlign(boolean autoTrue ){
+    this.autoAlign = autoTrue;
   }
 
   public void setPosition(double position) {
     Logger.recordOutput("Hood Target Position", position);
     System.out.println(io.getPosition() + " Hood");
+    autoAlign = false;
     targetPosition = position;
+  }
+
+  public void setShuttlePosition(double position){
+    if(!shuttle) {
+      shuttle = !shuttle;
+      targetPosition = position;
+    }
+    else {
+      shuttle = !shuttle;
+      targetPosition = 0;
+    }
   }
 
   public void setHoodSetpoint(double offset) {
