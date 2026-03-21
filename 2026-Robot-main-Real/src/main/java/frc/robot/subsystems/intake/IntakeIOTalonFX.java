@@ -28,7 +28,7 @@ public class IntakeIOTalonFX implements IntakeIO {
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     
-    //config.CurrentLimits.SupplyCurrentLimit = 60;
+    config.CurrentLimits.SupplyCurrentLimit = 60;
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
     config.MotionMagic.MotionMagicAcceleration = 100;
 

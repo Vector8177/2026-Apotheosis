@@ -5,9 +5,21 @@
     "data": {
       "commands": [
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 8.0
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Left Temporary 4"
+            "pathName": "Left Temporary 1"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
@@ -17,28 +29,21 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Left Temporary 4.5"
+            "name": "AutoAlignToggle"
           }
         },
         {
-          "type": "parallel",
+          "type": "wait",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Left Temporary 5"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Run Intake"
-                }
-              }
-            ]
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         },
         {
@@ -50,37 +55,31 @@
         {
           "type": "named",
           "data": {
+            "name": "Run Intake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop Shooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Stop Intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Left Temporary 6"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Left Temporary 7"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Left Temporary 8"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "AutoAlignToggle"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
           }
         }
       ]

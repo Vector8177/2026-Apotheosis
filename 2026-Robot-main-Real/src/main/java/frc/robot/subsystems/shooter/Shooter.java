@@ -16,6 +16,7 @@ import frc.robot.LimelightHelpers.RawFiducial;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.subsystems.shooter.ShooterIO.ShooterIOInputs;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix6.controls.VelocityVoltage;
 
@@ -27,20 +28,21 @@ public class Shooter extends SubsystemBase {
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
   private static final InterpolatingDoubleTreeMap shooterSpeedMap = new InterpolatingDoubleTreeMap();
   private double targetSpeed = 0;
+  private double distance2Hub = 0d;
 
   private int time = 1;
 
-  private boolean shoot = false;
+  private boolean shootAble = false;
   private boolean shuttle = false;
   
 
   static {
     //put values for interpolating tree maps
     //add more values as testing each case continues
-    shooterSpeedMap.put(3.25, 75d);
-    shooterSpeedMap.put(3.6, 85d);
-    shooterSpeedMap.put(4.28, 95d);
-    shooterSpeedMap.put(4.83, 100d);
+    shooterSpeedMap.put(3.25, 80d);
+    shooterSpeedMap.put(3.6, 97d);
+    shooterSpeedMap.put(4.28, 107d);
+    shooterSpeedMap.put(4.83, 112d);
   }
 
   public Shooter(ShooterIO io) {
@@ -72,6 +74,7 @@ public class Shooter extends SubsystemBase {
         Math.sqrt(Math.pow(Math.abs(HoodConstants.BLUE_HUB_X-RobotContainer.drive.getPose().getX()), 2)+
                   Math.pow(Math.abs(HoodConstants.BLUE_HUB_Y-RobotContainer.drive.getPose().getY()), 2));
     }
+    distance2Hub = distanceToHub;
     Logger.recordOutput("Dist to Hub", distanceToHub);
     double speed = 0;
     try {
@@ -81,6 +84,10 @@ public class Shooter extends SubsystemBase {
       speed = 90;
     }
     targetSpeed = shoot ? speed : 0; // .8
+  }
+
+  public void setBackSpeed(double speed){
+    targetSpeed = speed;
   }
 
   public void setShuttleSpeed(double speed){
@@ -98,7 +105,7 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
 
     Logger.recordOutput("Shooter Current", io.getCurrent());
-
+    SmartDashboard.putBoolean("Shootable", distance2Hub < 2.5);
     // time++;
 
     // if(time%3==0 && time>=50){

@@ -311,6 +311,7 @@ public class RobotContainer {
     driverController.a().onTrue(MainCommands.shootNoRev(intake, shooter, hood)).onFalse(MainCommands.stopShooter(intake, shooter, hood));
     driverController.rightBumper().onTrue(MainCommands.shoot(intake, shooter, hood)).onFalse(MainCommands.stopShooter(intake, shooter, hood));
     // driverController.leftBumper().onTrue(MainCommands.runTopIntakeBackward(intake)).onFalse(MainCommands.stopTopIntake(intake));
+    driverController.leftBumper().onTrue(MainCommands.intakeShoot(shooter, intake)).onFalse(MainCommands.stopShooter(intake,shooter, hood));
     driverController.povLeft().onTrue(MainCommands.movePivot(intakePivot));
     driverController.povRight().onTrue(MainCommands.stowPivot(intakePivot));
     driverController.povUp().onTrue(MainCommands.rotateHood(hood)).onFalse(MainCommands.stopHood(hood));

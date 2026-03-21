@@ -32,13 +32,14 @@ public class Hood extends SubsystemBase {
   static {
     //fill in hood angle values
 
+    hoodAngleMap.put(1.41, 0d);
     hoodAngleMap.put(1.79, .019);
     hoodAngleMap.put(2.22, 2.5);
     hoodAngleMap.put(2.75, 3.937);
-    hoodAngleMap.put(3.129, 4.99);
-    hoodAngleMap.put(3.6, 7.123);
-    hoodAngleMap.put(4.28, 7.8);
-    hoodAngleMap.put(4.83, 7.1);
+    // hoodAngleMap.put(3.129, 4.99);
+    // hoodAngleMap.put(3.6, 7.123);
+    // hoodAngleMap.put(4.28, 7.8);
+    // hoodAngleMap.put(4.83, 7.1);
     
 
   }

@@ -74,11 +74,11 @@ public class MainCommands {
   }
 
   public static Command runIntake(Intake intake) {
-    return runOnce(() -> intake.setSpeed(.6), intake); // .3
+    return runOnce(() -> intake.setSpeed(.45), intake); // .6
   }
 
   public static Command runOuttake(Intake intake) {
-    return runOnce(() -> intake.setSpeed(-.6), intake); // -.3
+    return runOnce(() -> intake.setSpeed(-.45), intake); // -.6
   }
 
   public static Command runOuttakeSlow(Intake intake) {
@@ -128,7 +128,7 @@ public class MainCommands {
     return sequence(runOnce(() -> shooter.setSpeed(true), shooter),
                   runOnce( () -> hood.setAutoAlign(true), hood),
                   waitSeconds(.5), 
-                  runOnce(() -> intake.setTopSpeed(-.6), intake)); //-.8
+                  runOnce(() -> intake.setTopSpeed(-.7), intake)); //-.8
     
     
   }
@@ -146,6 +146,11 @@ public class MainCommands {
                   runOnce(() -> intake.setTopSpeed(-.5), intake));
     
     
+  }
+
+  public static Command intakeShoot(Shooter shooter, Intake intake){
+    return sequence(runOnce(() -> shooter.setBackSpeed(-70), shooter), 
+                    runOnce(() -> intake.setTopSpeed(.5), intake));
   }
 
 
