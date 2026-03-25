@@ -13,6 +13,8 @@ public interface IntakeIO {
     return 0d;
   }
 
+  default void setCurrentLimit(double amps) {}
+
   default void setBottomIntakeVoltage(double volts) {}
 
   default void stop() {}

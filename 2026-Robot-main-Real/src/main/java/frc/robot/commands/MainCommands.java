@@ -229,7 +229,7 @@ public class MainCommands {
   // }
 
 
-  public static Command autoAlign(){
-    return runOnce(() -> Drive.overrideAlign = !Drive.overrideAlign);
-  }
+  // public static Command autoAlign(){
+  //   return runOnce(() -> Drive.setAutoAlign(true));
+  // }
 }

@@ -20,16 +20,23 @@ public class IntakeIOTalonFX implements IntakeIO {
   private final TalonFX indexMotor;
   private final TalonFX startIntakeMotor;
   private final NeutralOut neutralOut = new NeutralOut();
+  private TalonFXConfiguration config;
 
   public IntakeIOTalonFX() {
     intakeMotor = new TalonFX(IntakeConstants.MOTOR_ID);
     indexMotor = new TalonFX(IntakeConstants.MOTOR_ID2);
     startIntakeMotor = new TalonFX(IntakeConstants.MOTOR_ID3);
 
-    TalonFXConfiguration config = new TalonFXConfiguration();
+    config = new TalonFXConfiguration();
     
-    config.CurrentLimits.SupplyCurrentLimit = 60;
+    // Setting Stator Current Limits
+    config.CurrentLimits.StatorCurrentLimit = 25;
+    config.CurrentLimits.StatorCurrentLimitEnable = true;
+
+    // Setting Supply Current Limits
+    config.CurrentLimits.SupplyCurrentLimit = 25; //25
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
+
     config.MotionMagic.MotionMagicAcceleration = 100;
 
     intakeMotor.getConfigurator().apply(config, 0.5);
@@ -39,6 +46,15 @@ public class IntakeIOTalonFX implements IntakeIO {
     intakeMotor.setNeutralMode(NeutralModeValue.Brake);
     indexMotor.setNeutralMode(NeutralModeValue.Brake);
     startIntakeMotor.setNeutralMode(NeutralModeValue.Brake);
+  }
+
+  @Override
+  public void setCurrentLimit(double amps) {
+    config.CurrentLimits.StatorCurrentLimit = amps;
+    config.CurrentLimits.StatorCurrentLimitEnable = true;
+    
+    config.CurrentLimits.SupplyCurrentLimit = amps;
+    config.CurrentLimits.SupplyCurrentLimitEnable = true;
   }
 
   @Override

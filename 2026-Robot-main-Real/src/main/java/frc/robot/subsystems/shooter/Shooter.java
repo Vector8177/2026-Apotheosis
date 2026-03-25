@@ -39,10 +39,11 @@ public class Shooter extends SubsystemBase {
   static {
     //put values for interpolating tree maps
     //add more values as testing each case continues
-    shooterSpeedMap.put(3.25, 80d);
-    shooterSpeedMap.put(3.6, 97d);
-    shooterSpeedMap.put(4.28, 107d);
-    shooterSpeedMap.put(4.83, 112d);
+    shooterSpeedMap.put(2d, 80d);
+    shooterSpeedMap.put(3.25, 85d);
+    shooterSpeedMap.put(3.6, 90d);//97
+    shooterSpeedMap.put(4.28, 95d);//107
+    shooterSpeedMap.put(4.83, 105d);//115
   }
 
   public Shooter(ShooterIO io) {
@@ -83,7 +84,7 @@ public class Shooter extends SubsystemBase {
     catch(Exception e) {
       speed = 90;
     }
-    targetSpeed = shoot ? speed : 0; // .8
+    targetSpeed = shoot ? speed : 0.5; // .8
   }
 
   public void setBackSpeed(double speed){

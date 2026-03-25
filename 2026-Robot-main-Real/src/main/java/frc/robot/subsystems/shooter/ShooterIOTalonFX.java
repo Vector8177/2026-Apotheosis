@@ -45,8 +45,14 @@ public class ShooterIOTalonFX implements ShooterIO {
 
     //config.Slot0.kS = 0;
 
-    //config.CurrentLimits.SupplyCurrentLimit = 70;
+    // Setting Stator Current Limit
+    config.CurrentLimits.StatorCurrentLimit = 50; //70
+    config.CurrentLimits.StatorCurrentLimitEnable = true;
+
+    // Setting Supply Current Limit
+    config.CurrentLimits.SupplyCurrentLimit = 50; //70
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
+
     config.MotionMagic.MotionMagicAcceleration = 100;
 
     shooterMotor.getConfigurator().apply(config, 0.5);

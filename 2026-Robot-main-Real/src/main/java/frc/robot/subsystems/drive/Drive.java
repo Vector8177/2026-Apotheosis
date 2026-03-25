@@ -114,8 +114,8 @@ public class Drive extends SubsystemBase {
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
 
 
-  public static boolean overrideAlign = false;
-
+  private static boolean overrideAlign = false;
+  
 
 
   public Drive(
@@ -257,72 +257,6 @@ public class Drive extends SubsystemBase {
     // Update gyro alert
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
   
-    // if(overrideAlign){
-    //   int id = (int) LimelightHelpers.getFiducialID("limelight-turret");
-    //   switch(id){
-    //     case 2 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
-    //     }
-    //     case 3 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
-    //     }
-    //     case 4 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
-    //     }
-    //     case 5 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
-    //     }
-    //     case 8 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, -0.3556, 0);
-    //     }
-    //     case 9 -> {
-    //        LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
-    //     }
-    //     case 10 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
-    //     }
-    //     case 11 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
-    //     }
-    //     case 18 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
-    //     }
-    //     case 19 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
-    //     }
-    //     case 20 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
-    //     }
-    //     case 21 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
-    //     }
-    //     case 24 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, -0.3556, 0);
-    //     }
-    //     case 25 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
-    //     }
-    //     case 26 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
-    //     }
-    //     case 27 -> {
-    //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
-    //     }
-    //     default -> {
-    //       break;
-    //     }
-
-    //   }
-    // double angle = LimelightHelpers.getTX("limelight-turret");
-
-    // PIDController tempController = new PIDController(.09, 0, 0);
-    // double omegaTemp = tempController.calculate(0, angle);
-    
-    // ChassisSpeeds tempSpeeds = new ChassisSpeeds(0, 0, omegaTemp);
-
-    // runVelocity(tempSpeeds);
-    // }
-  
   }
 
   /**
@@ -348,6 +282,10 @@ public class Drive extends SubsystemBase {
     // Log optimized setpoints (runSetpoint mutates each state)
     Logger.recordOutput("SwerveStates/SetpointsOptimized", setpointStates);
   }
+
+  // public void setAutoAlign(boolean align){
+  //   this.overrideAlign = align;
+  // }
 
   /** Runs the drive in a straight line with the specified drive output. */
   public void runCharacterization(double output) {

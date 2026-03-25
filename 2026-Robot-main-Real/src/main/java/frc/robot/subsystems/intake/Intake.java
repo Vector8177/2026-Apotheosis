@@ -52,6 +52,12 @@ public class Intake extends SubsystemBase {
   }
 
   public void setTopSpeed(double speed){
+    if(speed != 0) {
+      io.setCurrentLimit(60);
+    }
+    else {
+      io.setCurrentLimit(25);
+    }
     targetSpeed2 = speed;
   }
 

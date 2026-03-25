@@ -32,10 +32,10 @@ import java.util.function.DoubleSupplier;
 
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
-  private static final double FF_START_DELAY = 2.0; // Secs
+  private static final double FF_START_DELAY = 2.0; // Sec
   private static final double FF_RAMP_RATE = 0.1; // Volts/Sec
-  private static final double WHEEL_RADIUS_MAX_VELOCITY = 0.25; // Rad/Sec
-  private static final double WHEEL_RADIUS_RAMP_RATE = 0.05; // Rad/Sec^2
+  private static final double WHEEL_RADIUS_MAX_VELOCITY = 3.44; // Rad/Sec //.25
+  private static final double WHEEL_RADIUS_RAMP_RATE = 35.34; // Rad/Sec^2 //.05
 
   private DriveCommands() {}
 
@@ -56,6 +56,11 @@ public class DriveCommands {
   /**
    * Field relative drive command using two joysticks (controlling linear and angular velocities).
    */
+
+  // public static Command autoAlign(Drive drive){
+    
+  // }
+
   public static Command joystickDrive(
       Drive drive,
       DoubleSupplier xSupplier,
@@ -66,13 +71,75 @@ public class DriveCommands {
           // Get linear velocity
           Translation2d linearVelocity =
               getLinearVelocityFromJoysticks(xSupplier.getAsDouble(), ySupplier.getAsDouble());
-
+          
           // Apply rotation deadband
           double omega = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND);
 
           // Square rotation value for more precise control
           omega = Math.copySign(omega * omega, omega);
 
+          // if(overrideAlign){
+          //   int id = (int) LimelightHelpers.getFiducialID("limelight-turret");
+          //   switch(id){
+          //     case 2 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+          //     }
+          //     case 3 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+          //     }
+          //     case 4 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+          //     }
+          //     case 5 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+          //     }
+          //     case 8 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, -0.3556, 0);
+          //     }
+          //     case 9 -> {
+          //         LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+          //     }
+          //     case 10 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+          //     }
+          //     case 11 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+          //     }
+          //     case 18 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+          //     }
+          //     case 19 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+          //     }
+          //     case 20 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+          //     }
+          //     case 21 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+          //     }
+          //     case 24 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, -0.3556, 0);
+          //     }
+          //     case 25 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+          //     }
+          //     case 26 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0, 0);
+          //     }
+          //     case 27 -> {
+          //       LimelightHelpers.SetFidcuial3DOffset("limelight-turret", -0.603758, 0.3556, 0);
+          //     }
+          //     default -> {
+          //       break;
+          //     }
+
+          //   }
+          // }
+          // double angle = LimelightHelpers.getTX("limelight-turret");
+
+          // PIDController tempController = new PIDController(.09, 0, 0);
+          // omega += tempController.calculate(0, angle);
+        
           // Convert to field relative speeds & send command
           ChassisSpeeds speeds =
               new ChassisSpeeds(
